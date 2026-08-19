@@ -6,7 +6,7 @@
 - Vite + React 18 + TypeScript. 상태: TanStack Query(서버) + Context(인증·가족·설정). 라우팅 react-router v6. 차트 recharts, 날짜 date-fns, 캡처 html2canvas.
 - API base는 **`.env.production`의 `VITE_API_BASE`** (현재 https://familyapi.seamspace.org, trailing slash 없이 — 경로 상수가 `/`로 시작).
 - 빌드: `npm run build` (tsc -b + vite). 검증 루틴: `npx tsc --noEmit` 0 에러 → `npm run lint`(oxlint) 0 이슈 → 빌드 → demo-mom 스모크.
-- SPA라서 정적 서빙 시 **try_files 폴백(`/index.html`) 필수** (BrowserRouter).
+- **배포 = https://familyparent.seamspace.org** (08-19부터 — 기존 Flutter 도메인 재사용, CORS 기등록). nginx `family-seamspace.conf`의 familyparent 블록 root가 `dist/`를 가리킴(try_files SPA 폴백 있음). 배포는 `npm run build`만으로 반영(정적 파일). 롤백 = root를 `../mDiary_parent/build/web`으로 되돌리기.
 
 ## 구조 (Flutter 구조 미러)
 - `src/app/` — tokens.css(**디자인 토큰 = CSS 변수, Flutter theme.dart 1:1** — 색 추가는 여기부터), router.tsx(가드 = go_router redirect 이식), Shell.tsx(하단 탭 — 전환기 3탭, 공유이야기 완성 시 4탭), ui.tsx(SeamSheet·토스트·버튼), emoticons.tsx(감정 46종 매핑+심즈), mood.ts(마음날씨·신호등)

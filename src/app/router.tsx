@@ -15,8 +15,9 @@ import { ReportsScreen } from '../features/family/screens/ReportsScreen';
 import { MailboxScreen } from '../features/family/screens/MailboxScreen';
 import { NotificationDetailScreen } from '../features/family/screens/NotificationDetailScreen';
 import { SettingsScreen } from '../features/family/screens/SettingsScreen';
+import { StoriesScreen } from '../features/family/screens/StoriesScreen';
 
-const ALLOWED_PREFIXES = ['/dashboard', '/reports', '/settings', '/child/', '/me/', '/mailbox'];
+const ALLOWED_PREFIXES = ['/dashboard', '/stories', '/reports', '/settings', '/child/', '/me/', '/mailbox'];
 
 function Guard({ children }: { children: ReactNode }) {
   const { status } = useAuth();
@@ -53,6 +54,7 @@ export function AppRoutes() {
         <Route path="/setup" element={<FamilySetupScreen />} />
         <Route element={<Shell />}>
           <Route path="/dashboard" element={<DashboardScreen />} />
+          <Route path="/stories" element={<StoriesScreen />} />
           <Route path="/reports" element={<ReportsScreen />} />
           <Route path="/settings" element={<SettingsScreen />} />
         </Route>

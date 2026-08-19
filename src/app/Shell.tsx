@@ -1,8 +1,8 @@
-// 하단 탭 셸 — 전환기 3탭(홈/리포트/마이페이지). 공유이야기 탭은 가족 피드 완성 시 4탭 복귀(docs/14 §3).
+// 하단 탭 셸 — 4탭(홈/이야기/리포트/마이페이지). 이야기 = 가족 공유이야기 피드(docs/14 §4-3).
 import { NavLink, Outlet } from 'react-router-dom';
 import { tr } from '../core/i18n/i18n';
 
-function Icon({ name, filled }: { name: 'home' | 'reports' | 'myPage'; filled: boolean }) {
+function Icon({ name, filled }: { name: 'home' | 'stories' | 'reports' | 'myPage'; filled: boolean }) {
   const stroke = filled ? 'var(--seam-brand-point)' : 'var(--seam-text-secondary)';
   const common = {
     width: 24,
@@ -24,6 +24,15 @@ function Icon({ name, filled }: { name: 'home' | 'reports' | 'myPage'; filled: b
       </svg>
     );
   }
+  if (name === 'stories') {
+    // 말풍선 + 책 페이지 느낌 — 공유이야기(가족 피드)
+    return (
+      <svg {...common}>
+        <path d="M4 5.5h16a0 0 0 0 1 0 0v10a2 2 0 0 1-2 2H9l-4 3.5v-3.5H6a2 2 0 0 1-2-2v-10a0 0 0 0 1 0 0z" />
+        <path d="M8.5 10h7M8.5 13h4.5" />
+      </svg>
+    );
+  }
   if (name === 'reports') {
     return (
       <svg {...common}>
@@ -42,6 +51,7 @@ function Icon({ name, filled }: { name: 'home' | 'reports' | 'myPage'; filled: b
 
 const tabs = [
   { to: '/dashboard', labelKey: 'nav.home', icon: 'home' as const },
+  { to: '/stories', labelKey: 'nav.stories', icon: 'stories' as const },
   { to: '/reports', labelKey: 'nav.reports', icon: 'reports' as const },
   { to: '/settings', labelKey: 'nav.myPage', icon: 'myPage' as const },
 ];

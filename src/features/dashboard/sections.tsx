@@ -1,4 +1,5 @@
 // 홈 대시보드 섹션 — Flutter sections/* 이식. 조립 순서는 DashboardScreen의 dashboardSections.
+/* eslint-disable react-refresh/only-export-components */
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
@@ -380,7 +381,7 @@ export function MyRecordSection() {
 }
 
 // ── activity feed (최근 가족 소식) ──
-const periods = [
+export const periods = [
   { value: 'week', labelKey: 'home.periodWeek' },
   { value: '2weeks', labelKey: 'home.period2Weeks' },
   { value: 'month', labelKey: 'home.periodMonth' },
@@ -388,7 +389,7 @@ const periods = [
 
 const REACTION_EMOJIS = ['love', 'sad', 'angry'] as const;
 
-function FeedCard({ item, familyId }: { item: FeedItem; familyId: number }) {
+export function FeedCard({ item, familyId }: { item: FeedItem; familyId: number }) {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const [commentsOpen, setCommentsOpen] = useState(false);

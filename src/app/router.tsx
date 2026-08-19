@@ -10,6 +10,7 @@ import { SplashScreen } from './SplashScreen';
 import { FamilySetupScreen } from '../features/family/screens/FamilySetupScreen';
 import { Shell } from './Shell';
 import { DashboardScreen } from '../features/dashboard/DashboardScreen';
+import { DiaryDetailScreen } from '../features/family/screens/DiaryDetailScreen';
 import { PortingPlaceholder } from './PortingPlaceholder';
 
 const ALLOWED_PREFIXES = ['/dashboard', '/reports', '/settings', '/child/', '/me/', '/mailbox'];
@@ -53,11 +54,8 @@ export function AppRoutes() {
           <Route path="/settings" element={<PortingPlaceholder titleKey="nav.myPage" />} />
         </Route>
         <Route path="/mailbox" element={<PortingPlaceholder titleKey="home.mailboxTooltip" />} />
-        <Route
-          path="/child/:membershipId/diary/:diaryId"
-          element={<PortingPlaceholder titleKey="home.typeDiary" />}
-        />
-        <Route path="/me/diary/:diaryId" element={<PortingPlaceholder titleKey="home.typeDiary" />} />
+        <Route path="/child/:membershipId/diary/:diaryId" element={<DiaryDetailScreen />} />
+        <Route path="/me/diary/:diaryId" element={<DiaryDetailScreen />} />
         <Route path="*" element={<Navigate to="/dashboard" replace />} />
       </Routes>
     </Guard>

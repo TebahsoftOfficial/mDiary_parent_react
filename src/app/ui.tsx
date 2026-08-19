@@ -66,7 +66,14 @@ export function SeamSheet({
   if (!open) return null;
   const host = document.querySelector('.seam-frame') ?? document.body;
   return createPortal(
-    <div className="seam-sheet-backdrop" onClick={onClose}>
+    // portal이어도 React 이벤트는 소유자 트리로 버블된다 — 시트 클릭이 카드 onClick으로 새지 않게 차단
+    <div
+      className="seam-sheet-backdrop"
+      onClick={(e) => {
+        e.stopPropagation();
+        onClose();
+      }}
+    >
       <div className="seam-sheet" onClick={(e) => e.stopPropagation()}>
         {children}
       </div>

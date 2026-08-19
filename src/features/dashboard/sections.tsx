@@ -123,7 +123,9 @@ function ChildCardView({ child, hero }: { child: ChildCard; hero: boolean }) {
       return;
     }
     if (child.latestDiaryId !== null) {
-      navigate(`/child/${child.membershipId}/diary/${child.latestDiaryId}`);
+      navigate(`/child/${child.membershipId}/diary/${child.latestDiaryId}`, {
+        state: { nickname: child.nickname },
+      });
     }
   };
 
@@ -388,8 +390,17 @@ const REACTION_EMOJIS = ['love', 'sad', 'angry'] as const;
 
 function FeedCard({ item, familyId }: { item: FeedItem; familyId: number }) {
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
   const [commentsOpen, setCommentsOpen] = useState(false);
   const isDiary = item.type === 'diary';
+  // 자녀 일기만 상세로 — 부모 글을 /child/ 라우트로 보내면 백엔드가 404 (감사 확정 버그)
+  const openDetail =
+    isDiary && item.diaryId !== null && item.authorRole === 'child'
+      ? () =>
+          navigate(`/child/${item.authorMembershipId}/diary/${item.diaryId}`, {
+            state: { nickname: item.authorNickname },
+          })
+      : null;
 
   const toggle = async (emoji: string) => {
     if (!item.diaryId) return;
@@ -402,7 +413,15 @@ function FeedCard({ item, familyId }: { item: FeedItem; familyId: number }) {
   };
 
   return (
-    <div className="seam-card" style={{ boxShadow: trafficGlow(item.emotionsScore), marginBottom: 10 }}>
+    <div
+      className="seam-card"
+      onClick={openDetail ?? undefined}
+      style={{
+        boxShadow: trafficGlow(item.emotionsScore),
+        marginBottom: 10,
+        cursor: openDetail ? 'pointer' : undefined,
+      }}
+    >
       <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 12.5 }}>
         <strong>{item.authorNickname}</strong>
         <span
@@ -453,7 +472,10 @@ function FeedCard({ item, familyId }: { item: FeedItem; familyId: number }) {
               return (
                 <button
                   key={emoji}
-                  onClick={() => void toggle(emoji)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    void toggle(emoji);
+                  }}
                   style={{
                     display: 'flex',
                     alignItems: 'center',
@@ -472,7 +494,10 @@ function FeedCard({ item, familyId }: { item: FeedItem; familyId: number }) {
               );
             })}
             <button
-              onClick={() => setCommentsOpen(true)}
+              onClick={(e) => {
+                e.stopPropagation();
+                setCommentsOpen(true);
+              }}
               style={{
                 marginLeft: 'auto',
                 border: 'none',

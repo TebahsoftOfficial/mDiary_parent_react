@@ -11,6 +11,7 @@ import { FamilySetupScreen } from '../features/family/screens/FamilySetupScreen'
 import { Shell } from './Shell';
 import { DashboardScreen } from '../features/dashboard/DashboardScreen';
 import { DiaryDetailScreen } from '../features/family/screens/DiaryDetailScreen';
+import { ReportsScreen } from '../features/family/screens/ReportsScreen';
 import { PortingPlaceholder } from './PortingPlaceholder';
 
 const ALLOWED_PREFIXES = ['/dashboard', '/reports', '/settings', '/child/', '/me/', '/mailbox'];
@@ -50,7 +51,7 @@ export function AppRoutes() {
         <Route path="/setup" element={<FamilySetupScreen />} />
         <Route element={<Shell />}>
           <Route path="/dashboard" element={<DashboardScreen />} />
-          <Route path="/reports" element={<PortingPlaceholder titleKey="nav.reports" />} />
+          <Route path="/reports" element={<ReportsScreen />} />
           <Route path="/settings" element={<PortingPlaceholder titleKey="nav.myPage" />} />
         </Route>
         <Route path="/mailbox" element={<PortingPlaceholder titleKey="home.mailboxTooltip" />} />

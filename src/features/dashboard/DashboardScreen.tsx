@@ -4,7 +4,8 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { tr } from '../../core/i18n/i18n';
 import { SeamSheet } from '../../app/ui';
-import { PortingPlaceholder } from '../../app/PortingPlaceholder';
+import { MonthlyStoryView } from '../family/widgets/MonthlyStoryView';
+import { WriteDiarySheet } from '../family/widgets/WriteDiarySheet';
 import { useFamily, useFamilyId } from '../family/FamilyContext';
 import { useEvents, useFeed, useHome, useUnreadMessages } from './hooks';
 import {
@@ -31,6 +32,7 @@ export function DashboardScreen() {
   const [period, setPeriod] = useState('week');
   const [member, setMember] = useState<MemberSelection | null>(null);
   const [filterOpen, setFilterOpen] = useState(false);
+  const [writeOpen, setWriteOpen] = useState(false);
 
   const home = useHome(familyId);
   const feed = useFeed(familyId, period);
@@ -99,7 +101,41 @@ export function DashboardScreen() {
       </header>
 
       {member !== null ? (
-        <PortingPlaceholder titleKey="nav.stories" />
+        <>
+          <MonthlyStoryView
+            key={member.isSelf ? 'me' : member.membershipId}
+            membershipId={member.isSelf ? null : member.membershipId}
+            nickname={member.nickname}
+          />
+          {/* '나' 모드에서만 작성 FAB (자녀 이야기는 읽기 전용) */}
+          {member.isSelf && (
+            <>
+              <button
+                id="home_write_fab"
+                title={tr('home.myRecordTitle')}
+                onClick={() => setWriteOpen(true)}
+                style={{
+                  position: 'fixed',
+                  bottom: 84,
+                  right: 'max(16px, calc(50% - 204px))',
+                  width: 56,
+                  height: 56,
+                  borderRadius: 'var(--seam-radius-lg)',
+                  border: 'none',
+                  background: 'var(--seam-brand)',
+                  color: '#fff',
+                  fontSize: 22,
+                  cursor: 'pointer',
+                  boxShadow: 'var(--seam-shadow-high)',
+                  zIndex: 20,
+                }}
+              >
+                ✏️
+              </button>
+              <WriteDiarySheet open={writeOpen} onClose={() => setWriteOpen(false)} />
+            </>
+          )}
+        </>
       ) : home.isLoading ? (
         <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <span className="seam-spinner" />

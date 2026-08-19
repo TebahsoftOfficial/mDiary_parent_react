@@ -2,7 +2,7 @@
 // Flutter family_models.dart 이식(톡방 모델 제외). 서버 키 흡수는 여기서만 한다.
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
-type Json = Record<string, any>;
+export type Json = Record<string, any>;
 
 export interface FamilyMemberInfo {
   membershipId: number;

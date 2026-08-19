@@ -1,6 +1,6 @@
 // 공용 UI — SeamBusyButton·SeamSheet(바텀시트)·토스트. 토큰은 tokens.css.
 /* eslint-disable react-refresh/only-export-components */
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import type { ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 
@@ -79,5 +79,39 @@ export function SeamSheet({
       </div>
     </div>,
     host,
+  );
+}
+
+/** 접기 섹션 — 시안 C-3 마이페이지의 Accordion (Flutter seam_accordion.dart 이식). */
+export function SeamAccordion({
+  title,
+  children,
+  initiallyExpanded = true,
+}: {
+  title: string;
+  children: ReactNode;
+  initiallyExpanded?: boolean;
+}) {
+  const [open, setOpen] = useState(initiallyExpanded);
+  return (
+    <div className="seam-card">
+      <div
+        onClick={() => setOpen(!open)}
+        style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}
+      >
+        <strong style={{ flex: 1, fontSize: 15.5 }}>{title}</strong>
+        <span
+          style={{
+            color: 'var(--seam-text-secondary)',
+            transform: open ? 'rotate(180deg)' : 'none',
+            transition: 'transform 150ms',
+            fontSize: 13,
+          }}
+        >
+          ▼
+        </span>
+      </div>
+      {open && <div style={{ marginTop: 10 }}>{children}</div>}
+    </div>
   );
 }

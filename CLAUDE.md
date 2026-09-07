@@ -9,7 +9,7 @@
 - **배포 = https://familyparent.seamspace.org** (08-19부터 — 기존 Flutter 도메인 재사용, CORS 기등록). nginx `family-seamspace.conf`의 familyparent 블록 root가 `dist/`를 가리킴(try_files SPA 폴백 있음). 배포는 `npm run build`만으로 반영(정적 파일). 롤백 = root를 `../mDiary_parent/build/web`으로 되돌리기.
 
 ## 구조 (Flutter 구조 미러)
-- `src/app/` — tokens.css(**디자인 토큰 = CSS 변수, Flutter theme.dart 1:1** — 색 추가는 여기부터), router.tsx(가드 = go_router redirect 이식), Shell.tsx(하단 탭 — 전환기 3탭, 공유이야기 완성 시 4탭), ui.tsx(SeamSheet·토스트·버튼), emoticons.tsx(감정 46종 매핑+심즈), mood.ts(마음날씨·신호등)
+- `src/app/` — tokens.css(**디자인 토큰 = CSS 변수, Flutter theme.dart 1:1** — 색 추가는 여기부터), router.tsx(가드 = go_router redirect 이식), Shell.tsx(하단 탭 4종 — 홈·이야기·리포트·마이페이지), ui.tsx(SeamSheet·토스트·버튼), emoticons.tsx(감정 46종 매핑+심즈), mood.ts(마음날씨·신호등)
 - `src/core/` — apiPaths.ts(**엔드포인트 상수, 백엔드와 1:1** — 하드코딩 금지), apiClient.ts(JWT Bearer·15s 타임아웃·401 refresh 1회 재시도), tokenStore.ts(localStorage), i18n/(tr() + en/ko 377키 — Flutter 번들 기계 이식), dateFmt.ts(i18n 키가 포맷 문자열)
 - `src/features/auth|dashboard|family/` — 화면·섹션·시트·models.ts(fromJson은 여기서만)·repository.ts
 - `public/images/` — 학생앱과 동일 PNG 62종(이모티콘 46·심즈 6·공감 6·우체통·기본 프로필)
@@ -23,4 +23,4 @@
 - 데모: demo-mom / (비번은 허브 secrets/demo-accounts.md).
 
 ## 포팅 상태
-**부모앱 전 화면 이식 완료 (08-19)** — 기반 계층·인증·홈 8섹션·일기 상세·마음이야기·리포트 C-1·우체통(알림 상세·월간보고서 모달)·마이페이지·이야기 탭(가족 피드, 셸 4탭). PortingPlaceholder 없음. 남음: 학생앱 톡방→가족 피드 복귀(docs/14 §5-9b — mDiary_front 작업), 컷오버 대조 스모크(§5-10). 번들 ~950KB(gzip 267KB) — recharts·html2canvas 편입, 라우트 지연 로딩은 후속 후보.
+**부모앱 전 화면 이식 완료 (08-19)** — 기반 계층·인증·홈 8섹션·일기 상세·마음이야기·리포트 C-1·우체통(알림 상세·월간보고서 모달)·마이페이지·이야기 탭(가족 피드, 셸 4탭). PortingPlaceholder 없음. 학생앱 톡방→가족 피드 복귀도 완료(mDiary_front, docs/14 §5-9b). 남음: 컷오버 대조 스모크(§5-10 — dev4 육안 대조). 번들 ~950KB(gzip 267KB) — recharts·html2canvas 편입, 라우트 지연 로딩은 후속 후보.
